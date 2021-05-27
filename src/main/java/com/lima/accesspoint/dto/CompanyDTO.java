@@ -1,5 +1,0 @@
-package com.lima.accesspoint.dto;
-
-public class CompanyDTO {
-
-}

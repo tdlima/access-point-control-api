@@ -7,19 +7,19 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.lima.accesspoint.enums.ContractType;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity(name = "jornada_trabalho")
+@Entity
+@Table(name = "jornada_trabalho")
 public class Workday {
 	
 	@Id
@@ -32,4 +32,5 @@ public class Workday {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_contrato")
 	private ContractType contractType;
+	
 }

@@ -1,46 +1,53 @@
 package com.lima.accesspoint.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lima.accesspoint.dto.request.CompanyDTO;
 import com.lima.accesspoint.exception.IdNotFoundException;
+import com.lima.accesspoint.mapper.CompanyMapper;
 import com.lima.accesspoint.model.Company;
 import com.lima.accesspoint.repository.CompanyRepository;
-import com.lima.accesspoint.service.response.ResponseMessage;
-
-import lombok.Data;
+import com.lima.accesspoint.response.ResponseMessage;
 
 @Service
-@Data
 public class CompanyService {
 	
 	@Autowired
 	private CompanyRepository companyRepository;
 	
-	public CompanyService(CompanyRepository companyRepository) {
-		this.companyRepository = companyRepository;
-	}
-
-	public List<Company> listAll() {
-		 return companyRepository.findAll();
+	@Autowired
+	private ResponseMessage responseMessage;
+	
+	@Autowired
+	private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
+	
+	public List<CompanyDTO> listAll() {
+		 List<Company> company = companyRepository.findAll();
+		 return company.stream()
+				 .map(companyMapper::toDTO)
+				 .collect(Collectors.toList());
 	}
 	
-	public Company listId(Long id) throws IdNotFoundException {
+	public CompanyDTO listId(Long id) throws IdNotFoundException {
 		Company companyId = ifNotExistId(id);
-		return companyId;
+		return companyMapper.toDTO(companyId);
 	}
 	
-	public ResponseMessage create(Company company) {
-		Company saveCompany = companyRepository.save(company);
-		return createMessage("The company was created successfully with id ", saveCompany.getId());
+	public ResponseMessage save(CompanyDTO companyDTO) {
+		Company saveCompany = companyMapper.toModel(companyDTO);
+		Company companySave = companyRepository.save(saveCompany);
+		return responseMessage.createMessage("The company was created successfully with id ", companySave.getId());
 	}
 	
-	public ResponseMessage update(Long id, Company company) throws IdNotFoundException {
+	public ResponseMessage update(Long id, CompanyDTO companyDTO) throws IdNotFoundException {
 		ifNotExistId(id);
-		Company updateCompany = companyRepository.save(company);
-		return createMessage("The company was updated successfully with id ", updateCompany.getId());
+		Company updtCompany = companyMapper.toModel(companyDTO);
+		Company companyUpdt = companyRepository.save(updtCompany);
+		return responseMessage.createMessage("The company was updated successfully with id ", companyUpdt.getId());
 	}
 	
 	public void delete(Long id) throws IdNotFoundException {
@@ -52,13 +59,7 @@ public class CompanyService {
 		return companyRepository.findById(id)
 				.orElseThrow(()->new IdNotFoundException(id));
 	}
-	
-	public ResponseMessage createMessage(String message, Long id) {
-		return ResponseMessage.builder()
-				.message(message + id)
-				.build();
-	}
-	
+
 }
 
 
