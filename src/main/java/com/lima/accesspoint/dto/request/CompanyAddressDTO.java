@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompanyAddressDTO {
 	
+	private Long id;
+	
 	@NotEmpty
 	@Size(min = 5, max = 80)
 	private String address;

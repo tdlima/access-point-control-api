@@ -2,6 +2,7 @@ package com.lima.accesspoint.dto.request;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -24,6 +25,8 @@ public class CompanyDTO {
 	@NotEmpty
 	private String cnpj;
 	
+	@NotEmpty
+	@Valid
 	private List<CompanyAddressDTO> companyAddress;
 	
 	@Size(min = 10, max = 11)

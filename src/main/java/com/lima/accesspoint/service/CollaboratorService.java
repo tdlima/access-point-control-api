@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lima.accesspoint.dto.request.CollaboratorDTO;
+import com.lima.accesspoint.dto.response.CollaboratorRspDTO;
 import com.lima.accesspoint.exception.IdNotFoundException;
 import com.lima.accesspoint.mapper.CollaboratorMapper;
 import com.lima.accesspoint.model.Collaborator;
@@ -16,31 +17,26 @@ import com.lima.accesspoint.response.ResponseMessage;
 @Service
 public class CollaboratorService {
 	
+	@Autowired
 	private CollaboratorRepository collaboratorRepository;
 	
 	@Autowired
 	private ResponseMessage responseMessage;
 	
-	
-	private CollaboratorMapper collaboratorMapper = CollaboratorMapper.INSTANCE;
-	
 	@Autowired
-	public CollaboratorService(CollaboratorRepository collaboratorRepository, CollaboratorMapper collaboratorMapper) {
-		this.collaboratorRepository = collaboratorRepository;
-		this.collaboratorMapper = collaboratorMapper;
-	}
+	private final CollaboratorMapper collaboratorMapper = CollaboratorMapper.INSTANCE;
 	
 
-	public List<CollaboratorDTO> listAll() {
+	public List<CollaboratorRspDTO> listAll() {
 		List<Collaborator> collaborators = collaboratorRepository.findAll();
 		return collaborators.stream()
-				.map(collaboratorMapper::toDTO)
+				.map(collaboratorMapper::toRspDTO)
 				.collect(Collectors.toList());
 	}
 
-	public CollaboratorDTO listId(Long id) throws IdNotFoundException {
+	public CollaboratorRspDTO listId(Long id) throws IdNotFoundException {
 		Collaborator collaborator = ifNotExistId(id);
-		return collaboratorMapper.toDTO(collaborator);
+		return collaboratorMapper.toRspDTO(collaborator);
 	}
 	
 	public ResponseMessage save(CollaboratorDTO collaboratorDTO) {

@@ -21,6 +21,10 @@ import com.lima.accesspoint.exception.IdNotFoundException;
 import com.lima.accesspoint.response.ResponseMessage;
 import com.lima.accesspoint.service.CompanyService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "Company")
 @RestController
 @RequestMapping("/apc/v1/company")
 public class CompanyController {
@@ -28,26 +32,32 @@ public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
 	
+	@ApiOperation(value = "List all")
 	@GetMapping
 	public List<CompanyDTO> listAll() {
 		return companyService.listAll();
 	}
 	
+	@ApiOperation(value = "List by Id")
 	@GetMapping("/{id}")
 	public CompanyDTO listId(@PathVariable Long id) throws IdNotFoundException {
 		return companyService.listId(id);
 	}
 	
+	@ApiOperation(value = "Save")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseMessage create(@RequestBody @Valid CompanyDTO companyDTO) {
+	public ResponseMessage save(@RequestBody @Valid CompanyDTO companyDTO) {
 		return companyService.save(companyDTO);
 	}
+	
+	@ApiOperation(value = "Update")
 	@PutMapping("/{id}")
 	public ResponseMessage update(@PathVariable Long id, @RequestBody @Valid CompanyDTO companyDTO) throws IdNotFoundException {
 		return companyService.update(id, companyDTO);
 	}
 	
+	@ApiOperation(value = "Delete")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) throws IdNotFoundException {

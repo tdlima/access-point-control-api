@@ -17,10 +17,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lima.accesspoint.dto.request.CollaboratorDTO;
+import com.lima.accesspoint.dto.response.CollaboratorRspDTO;
 import com.lima.accesspoint.exception.IdNotFoundException;
 import com.lima.accesspoint.response.ResponseMessage;
 import com.lima.accesspoint.service.CollaboratorService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "Collaborators")
 @RestController
 @RequestMapping("/apc/v1/collaborator")
 public class CollaboratorController {
@@ -28,27 +33,32 @@ public class CollaboratorController {
 	@Autowired
 	private CollaboratorService collaboratorService;
 	
+	@ApiOperation(value = "List all")
 	@GetMapping
-	public List<CollaboratorDTO> listAll() {
+	public List<CollaboratorRspDTO> listAll() {
 		return collaboratorService.listAll();	
 	}
 	
+	@ApiOperation(value = "List by Id")
 	@GetMapping("/{id}")
-	public CollaboratorDTO listId(@PathVariable Long id) throws IdNotFoundException {
+	public CollaboratorRspDTO listId(@PathVariable Long id) throws IdNotFoundException {
 		return collaboratorService.listId(id);
 	}
-
+	
+	@ApiOperation(value = "Save")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseMessage create(@RequestBody @Valid CollaboratorDTO collaboratorDTO) {
+	public ResponseMessage save(@RequestBody @Valid CollaboratorDTO collaboratorDTO) {
 		return collaboratorService.save(collaboratorDTO);		
 	}
-
+	
+	@ApiOperation(value = "Update")
 	@PutMapping("/{id}")
 	public ResponseMessage update(@PathVariable Long id, @RequestBody @Valid CollaboratorDTO collaboratorDTO) throws IdNotFoundException {
 		return collaboratorService.update(id, collaboratorDTO);
 	}
 	
+	@ApiOperation(value = "Delete")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) throws IdNotFoundException {

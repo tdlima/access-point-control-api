@@ -1,6 +1,5 @@
 package com.lima.accesspoint.model;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,26 +39,26 @@ public class Collaborator {
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
 	@JoinColumn(name = "endereco_colaborador_id")
-	private List<CollaboratorAddress> collaboratorAddress;
+	private List<CollaboratorAddress> address;
 	
 	@ManyToOne
 	@JoinColumn(name = "empresa_id")
 	private Company company;
 	
 	@ManyToOne
-	@JoinColumn(name = "cargo_usuario_id", nullable = false)
-	private CollaboratorRole collaboratorRole;
+	@JoinColumn(name = "cargo_usuario_id")
+	private Role role;
 	
 	@ManyToOne
 	@JoinColumn(name = "jornada_trabalho_id")
 	private Workday workday;
 	
 	@Column(name = "tolerancia")
-	private BigDecimal tolerance;
+	private String tolerance;
 	
 	@Column(name = "entrada")
-	private BigDecimal entrance;
+	private String entrance;
 	
 	@Column(name = "saida")
-	private BigDecimal wayOut;
+	private String wayOut;
 }

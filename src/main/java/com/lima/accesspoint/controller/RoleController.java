@@ -16,43 +16,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lima.accesspoint.dto.request.CollaboratorRoleDTO;
+import com.lima.accesspoint.dto.request.RoleDTO;
 import com.lima.accesspoint.exception.IdNotFoundException;
 import com.lima.accesspoint.response.ResponseMessage;
-import com.lima.accesspoint.service.CollaboratorRoleService;
+import com.lima.accesspoint.service.RoleService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "Role")
 @RestController
-@RequestMapping("/apc/v1/collaborator-role")
-public class CollaboratorRoleController {
+@RequestMapping("/apc/v1/role")
+public class RoleController {
 	
 	@Autowired
-	private CollaboratorRoleService collaboratorRoleService;
+	private RoleService roleService;
 	
+	@ApiOperation(value = "List all")
 	@GetMapping
-	public List<CollaboratorRoleDTO> listAll(){
-		return collaboratorRoleService.listAll();
+	public List<RoleDTO> listAll(){
+		return roleService.listAll();
 	}
 	
+	@ApiOperation(value = "List by Id")
 	@GetMapping("/{id}")
-	public CollaboratorRoleDTO listId(@PathVariable Long id) throws IdNotFoundException {
-		return collaboratorRoleService.listId(id);
+	public RoleDTO listId(@PathVariable Long id) throws IdNotFoundException {
+		return roleService.listId(id);
 	}
 	
+	@ApiOperation(value = "Save")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseMessage create(@RequestBody @Valid CollaboratorRoleDTO collaboratorRoleDTO) {
-		return collaboratorRoleService.save(collaboratorRoleDTO);
+	public ResponseMessage save(@RequestBody @Valid RoleDTO roleDTO) {
+		return roleService.save(roleDTO);
 	}
 	
+	@ApiOperation(value = "Update")
 	@PutMapping("/{id}")
-	public ResponseMessage update(@PathVariable Long id, @RequestBody @Valid CollaboratorRoleDTO collaboratorRoleDTO) throws IdNotFoundException {
-		return collaboratorRoleService.update(id, collaboratorRoleDTO);
+	public ResponseMessage update(@PathVariable Long id, @RequestBody @Valid RoleDTO roleDTO) throws IdNotFoundException {
+		return roleService.update(id, roleDTO);
 	}
 	
+	@ApiOperation(value = "Delete")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) throws IdNotFoundException {
-		collaboratorRoleService.delete(id);
+		roleService.delete(id);
 	}
 
 }

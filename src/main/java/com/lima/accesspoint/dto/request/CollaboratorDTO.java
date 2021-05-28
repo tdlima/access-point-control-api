@@ -1,8 +1,9 @@
 package com.lima.accesspoint.dto.request;
 
-import java.math.BigDecimal;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -18,28 +19,36 @@ public class CollaboratorDTO {
 	
 	private Long id;
 	
+	@NotEmpty
 	@Size(min = 3, max = 80)
 	private String name;
 	
+	@NotEmpty
 	@CPF
 	private String cpf;
-
+	
+	@NotEmpty
 	@Size(min = 10, max = 11)
 	private String phone;
-
-	private CollaboratorRoleDTO collaboratorRole;
-
+	
+	private RoleDTO role;
+	
 	private CompanyDTO company;
 	
-	private List<CollaboratorAddressDTO> collaboratorAddress;
+	@Valid
+	@NotEmpty
+	private List<CollaboratorAddressDTO> address;
 	
 	private WorkdayDTO workday;
 	
-	private BigDecimal tolerance;
+	@NotEmpty
+	private String tolerance;
 	
-	private BigDecimal entrance;
+	@NotEmpty
+	private String entrance;
 	
-	private BigDecimal wayOut;
+	@NotEmpty
+	private String wayOut;
 
 }
 

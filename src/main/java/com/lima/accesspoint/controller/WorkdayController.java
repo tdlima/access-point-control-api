@@ -21,6 +21,10 @@ import com.lima.accesspoint.exception.IdNotFoundException;
 import com.lima.accesspoint.response.ResponseMessage;
 import com.lima.accesspoint.service.WorkdayService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "Workday")
 @RestController
 @RequestMapping("/apc/v1/workday")
 public class WorkdayController {
@@ -28,27 +32,32 @@ public class WorkdayController {
 	@Autowired
 	private WorkdayService workdayService;
 	
+	@ApiOperation(value = "List all")
 	@GetMapping
 	public List<WorkdayDTO> listAll() {
 		return workdayService.listAll();
 	}
 	
+	@ApiOperation(value = "List by Id")
 	@GetMapping("/{id}")
 	public WorkdayDTO listId(@PathVariable Long id) throws IdNotFoundException {
 		return workdayService.listId(id);
 	}
 	
+	@ApiOperation(value = "Save")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseMessage create(@RequestBody @Valid WorkdayDTO workdayDTO) {
+	public ResponseMessage save(@RequestBody @Valid WorkdayDTO workdayDTO) {
 		return workdayService.save(workdayDTO);
 	}
 	
+	@ApiOperation(value = "Update")
 	@PutMapping("/{id}")
 	public ResponseMessage update(@PathVariable Long id, @RequestBody @Valid WorkdayDTO workdayDTO) throws IdNotFoundException {
 		return workdayService.update(id, workdayDTO);
 	}
 	
+	@ApiOperation(value = "Delete")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) throws IdNotFoundException {

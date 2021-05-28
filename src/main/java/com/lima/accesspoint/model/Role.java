@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.lima.accesspoint.enums.Role;
+import com.lima.accesspoint.enums.Roles;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,14 +21,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "cargo_colaborador")
-public class CollaboratorRole {
+public class Role {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "cargo",nullable = false)
-	private Role role;
+	@Column(name = "cargo")
+	private Roles role;
 	
 }
